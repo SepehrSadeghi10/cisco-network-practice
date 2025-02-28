@@ -1,0 +1,79 @@
+NX9K-1=====================================
+conf t
+!
+hostname NX9K-1
+!
+int e1/1
+ no sw
+ ip add 10.10.10.1/30
+ ipv6 add 2201:db1::1/48
+ no shut
+!
+int e1/2
+ no sw
+ ip add 10.10.10.5/30
+ no shut
+!
+int e1/3
+ no sw
+ ip add 10.10.10.9/30
+ ipv6 add 2201:db2::1/48
+ no shut
+exit
+!
+copy r s
+!
+
+NX9K-10=====================================
+conf t
+!
+hostname NX9K-10
+!
+int e1/1
+ no sw
+ ip add 10.10.10.2/30
+ ipv6 add 2201:db1::a/48
+ no shut
+!
+int loopback10
+ ip add 192.168.10.10/24
+exit
+!
+copy r s
+!
+
+NX9K-11=====================================
+conf t
+!
+hostname NX9K-11
+!
+int e1/1
+ no sw
+ ip add 10.10.10.6/30
+ no shut
+!
+int loopback11
+ ip add 192.168.11.11/24
+exit
+!
+copy r s
+!
+
+NX9K-15=====================================
+conf t
+!
+hostname NX9K-15
+!
+int e1/1
+ no sw
+ ip add 10.10.10.10/30
+ ipv6 add 2201:db2::F/48
+ no shut
+!
+int loopback15
+ ip add 192.168.15.15/24
+exit
+!
+copy r s
+!
+
