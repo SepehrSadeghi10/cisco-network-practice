@@ -1,0 +1,200 @@
+NX9K-1 ============================================
+conf t
+!
+hostname NX9K-1
+!
+int loopback0
+ ip add 1.1.1.1/32
+ ipv6 add 2001:db8::1/128
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.1/30
+ ipv6 add 2001:db8:12::1/64
+ no shut
+!
+int e1/2
+ no switchport
+ ip add 10.10.10.5/30
+ ipv6 add 2001:db8:13::1/64
+ no shut
+!
+int e1/3
+ no switchport
+ ip add 10.10.10.9/30
+ ipv6 add 2001:db8:16::1/64
+ no shut
+!
+int e1/4
+ no switchport
+ ip add 10.10.10.13/30
+ ipv6 add 2001:db8:14::1/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-2 ============================================
+conf t
+!
+hostname NX9K-2
+!
+int loopback0
+ ip add 1.1.1.2/32
+ ipv6 add 2001:db8::2/128
+!
+int loopback2
+ ip add 192.168.12.1/24
+ ip add 192.168.13.1/24 secondary
+ ip add 192.168.14.1/24 secondary
+ ip add 192.168.15.1/24 secondary
+ ipv6 add 2001:db8:0:12::1/64
+ ipv6 add 2001:db8:0:13::1/64
+ ipv6 add 2001:db8:0:14::1/64
+ ipv6 add 2001:db8:0:15::1/64
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.2/30
+ ipv6 add 2001:db8:12::2/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-3 ============================================
+conf t
+!
+hostname NX9K-3
+!
+int loopback0
+ ip add 1.1.1.3/32
+ ipv6 add 2001:db8::3/128
+!
+int loopback3
+ ip add 192.168.3.1/24
+ ipv6 add 2001:db8:3::1/64
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.6/30
+ ipv6 add 2001:db8:13::3/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-4 ============================================
+conf t
+!
+hostname NX9K-4
+!
+int loopback0
+ ip add 1.1.1.4/32
+ ipv6 add 2001:db8::4/128
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.14/30
+ ipv6 add 2001:db8:14::4/64
+ no shut
+!
+int e1/2
+ no switchport
+ ip add 10.10.10.25/30
+ ipv6 add 2001:db8:45::4/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-5 ============================================
+conf t
+!
+hostname NX9K-5
+!
+int loopback0
+ ip add 1.1.1.5/32
+ ipv6 add 2001:db8::5/128
+!
+int loopback5
+ ip add 192.168.5.1/24
+ ipv6 add 2001:db8:5::1/64
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.26/30
+ ipv6 add 2001:db8:45::5/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-6 ============================================
+conf t
+!
+hostname NX9K-6
+!
+int loopback0
+ ip add 1.1.1.6/32
+ ipv6 add 2001:db8::6/128
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.10/30
+ ipv6 add 2001:db8:16::6/64
+ no shut
+!
+int e1/2
+ no switchport
+ ip add 10.10.10.17/29
+ ipv6 add 2001:db8:678::6/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-7 ============================================
+conf t
+!
+hostname NX9K-7
+!
+int loopback0
+ ip add 1.1.1.7/32
+ ipv6 add 2001:db8::7/128
+!
+int loopback7
+ ip add 192.168.7.1/24
+ ipv6 add 2001:db8:7::1/64
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.18/29
+ ipv6 add 2001:db8:678::7/64
+ no shut
+exit
+!
+copy r s
+!
+NX9K-8 ============================================
+conf t
+!
+hostname NX9K-8
+!
+int loopback0
+ ip add 1.1.1.8/32
+ ipv6 add 2001:db8::8/128
+!
+int loopback8
+ ip add 192.168.8.1/24
+ ipv6 add 2001:db8:8::1/64
+!
+int e1/1
+ no switchport
+ ip add 10.10.10.19/29
+ ipv6 add 2001:db8:678::8/64
+ no shut
+exit
+!
+copy r s
+!
