@@ -3,32 +3,93 @@ conf t
 !
 hostname NX9K-1
 !
+feature ospf
+!
+feature ospfv3
+!
+key chain mypass
+ key 10
+  key-string P@ssW0rd
+ exit
+exit
+!
+router ospf 10
+ log-adjacency-changes detail
+ router-id 1.1.1.1
+ area 0 authentication message-digest
+ area 14 authentication message-digest
+ area 678 authentication message-digest
+ area 678 nssa
+ passive-interface default
+ area 14 virtual-link 1.1.1.4
+ exit
+exit
+!
+router ospfv3 20
+ log-adjacency-changes detail
+ router-id 1.1.1.1
+ area 678 nssa
+ passive-interface default
+ area 14 virtual-link 1.1.1.4
+ exit
+exit
+!
 int loopback0
  ip add 1.1.1.1/32
  ipv6 add 2001:db8::1/128
+ ip router ospf 10 area 0
+ ipv6 router ospf 20 area 0
 !
 int e1/1
  no switchport
  ip add 10.10.10.1/30
  ipv6 add 2001:db8:12::1/64
+ ip router ospf 10 area 0
+ ip ospf authentication key-chain mypass
+ ip ospf network point-to-point
+ no ip ospf passive-interface
+ ipv6 router ospf 20 area 0
+ ospfv3 network point-to-point
+ no ospfv3 passive-interface
  no shut
 !
 int e1/2
  no switchport
  ip add 10.10.10.5/30
  ipv6 add 2001:db8:13::1/64
+ ip router ospf 10 area 0
+ ip ospf authentication key-chain mypass
+ ip ospf network point-to-point
+ no ip ospf passive-interface
+ ipv6 router ospf 20 area 0
+ ospfv3 network point-to-point
+ no ospfv3 passive-interface
  no shut
 !
 int e1/3
  no switchport
  ip add 10.10.10.9/30
  ipv6 add 2001:db8:16::1/64
+ ip router ospf 10 area 678
+ ip ospf authentication key-chain mypass
+ ip ospf network point-to-point
+ no ip ospf passive-interface
+ ipv6 router ospf 20 area 678
+ ospfv3 network point-to-point
+ no ospfv3 passive-interface
  no shut
 !
 int e1/4
  no switchport
  ip add 10.10.10.13/30
  ipv6 add 2001:db8:14::1/64
+ ip router ospf 10 area 14
+ ip ospf authentication key-chain mypass
+ ip ospf network point-to-point
+ no ip ospf passive-interface
+ ipv6 router ospf 20 area 14
+ ospfv3 network point-to-point
+ no ospfv3 passive-interface
  no shut
 exit
 !
