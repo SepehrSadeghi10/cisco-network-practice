@@ -38,7 +38,8 @@ int loopback0
  ip add 1.1.1.1/32
  ipv6 add 2001:db8::1/128
  ip router ospf 10 area 0
- ipv6 router ospf 20 area 0
+ ipv6 router ospfv3 20 area 0
+ no shut
 !
 int e1/1
  no switchport
@@ -48,7 +49,7 @@ int e1/1
  ip ospf authentication key-chain mypass
  ip ospf network point-to-point
  no ip ospf passive-interface
- ipv6 router ospf 20 area 0
+ ipv6 router ospfv3 20 area 0
  ospfv3 network point-to-point
  no ospfv3 passive-interface
  no shut
@@ -61,7 +62,7 @@ int e1/2
  ip ospf authentication key-chain mypass
  ip ospf network point-to-point
  no ip ospf passive-interface
- ipv6 router ospf 20 area 0
+ ipv6 router ospfv3 20 area 0
  ospfv3 network point-to-point
  no ospfv3 passive-interface
  no shut
@@ -74,7 +75,7 @@ int e1/3
  ip ospf authentication key-chain mypass
  ip ospf network point-to-point
  no ip ospf passive-interface
- ipv6 router ospf 20 area 678
+ ipv6 router ospfv3 20 area 678
  ospfv3 network point-to-point
  no ospfv3 passive-interface
  no shut
@@ -87,7 +88,7 @@ int e1/4
  ip ospf authentication key-chain mypass
  ip ospf network point-to-point
  no ip ospf passive-interface
- ipv6 router ospf 20 area 14
+ ipv6 router ospfv3 20 area 14
  ospfv3 network point-to-point
  no ospfv3 passive-interface
  no shut
