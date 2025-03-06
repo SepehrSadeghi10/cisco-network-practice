@@ -83,6 +83,7 @@ int loopback0
  ipv6 add 2001:db8::2/128
  ip router ospf 10 area 0
  ipv6 router ospfv3 20 area 0
+ no shut
 !
 int loopback2
  ip add 192.168.12.1/24
@@ -97,6 +98,7 @@ int loopback2
  ip ospf network point-to-point
  ipv6 router ospfv3 20 area 0
  ospfv3 network point-to-point
+ no shut
 !
 int e1/1
  no switchport
