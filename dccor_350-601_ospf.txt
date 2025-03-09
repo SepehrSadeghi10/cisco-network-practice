@@ -19,7 +19,7 @@ router ospf 10
  area 0 authentication message-digest
  area 14 authentication message-digest
  area 678 authentication message-digest
- area 678 nssa
+ area 678 nssa default-information-originate
  area 0 range 192.168.12.0/22 cost 41
  passive-interface default
  area 14 virtual-link 1.1.1.4
@@ -29,7 +29,7 @@ exit
 router ospfv3 20
  log-adjacency-changes detail
  router-id 1.1.1.1
- area 678 nssa
+ area 678 nssa default-information-originate
  passive-interface default
  address-family ipv6 unicast
   area 0 range 2001:db8:0:12::/62 cost 41
