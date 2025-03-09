@@ -172,7 +172,7 @@ exit
 router ospf 10
  log-adjacency-changes detail
  router-id 1.1.1.7
- area 678 stub
+ area 678 nssa
  area 678 authentication message-digest
  passive-interface default
 exit
@@ -180,7 +180,7 @@ exit
 router ospfv3 20
  log-adjacency-changes detail
  router-id 1.1.1.7
- area 678 stub
+ area 678 nssa
  passive-interface default
 exit
 !
