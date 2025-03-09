@@ -13,6 +13,18 @@ key chain mypass
  exit
 exit
 !
+ip prefix-list LO3 seq 5 deny 192.168.3.0/24 
+ip prefix-list LO3 seq 10 permit 0.0.0.0/0 le 32 
+ipv6 prefix-list LO3 seq 5 deny 2001:db8:3::/64 
+ipv6 prefix-list LO3 seq 10 permit 0::/0 le 128 
+!
+route-map RM_LO3 permit 10
+ match ip address prefix-list LO3
+!
+route-map RM6_LO3 permit 10
+ match ipv6 address prefix-list LO3
+exit
+!
 router ospf 10
  log-adjacency-changes detail
  router-id 1.1.1.1
@@ -21,6 +33,7 @@ router ospf 10
  area 678 authentication message-digest
  area 678 nssa default-information-originate
  area 0 range 192.168.12.0/22 cost 41
+ area 678 filter-list route-map RM_LO3 in
  passive-interface default
  area 14 virtual-link 1.1.1.4
  exit
@@ -33,6 +46,7 @@ router ospfv3 20
  passive-interface default
  address-family ipv6 unicast
   area 0 range 2001:db8:0:12::/62 cost 41
+  area 678 filter-list route-map RM6_LO3 in
  exit
  area 14 virtual-link 1.1.1.4
  exit
