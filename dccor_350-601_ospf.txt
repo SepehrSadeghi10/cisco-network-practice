@@ -511,18 +511,67 @@ conf t
 !
 hostname NX9K-8
 !
+feature ospf
+!
+feature ospfv3
+!
+key chain mypass
+ key 10
+  key-string P@ssW0rd
+ exit
+exit
+!
+ip prefix-list LO8 seq 5 permit 192.168.8.0/24
+ipv6 prefix-list LO8 seq 5 permit 2001:db8:8::/64
+!
+route-map RM_LO8 permit 10
+  match ip address prefix-list LO8 
+  set metric-type type-1
+!
+route-map RM6_LO8 permit 10
+  match ipv6 address prefix-list LO8 
+  set metric-type type-1
+exit
+!
+router ospf 10
+ log-adjacency-changes detail
+ router-id 1.1.1.8
+ area 678 nssa
+ area 678 authentication message-digest
+ passive-interface default
+ redistribute direct route-map RM_LO8
+exit
+!
+router ospfv3 20
+ log-adjacency-changes detail
+ router-id 1.1.1.8
+ area 678 nssa
+ passive-interface default
+ address-family ipv6 unicast
+  redistribute direct route-map RM6_LO8
+exit
+!
 int loopback0
  ip add 1.1.1.8/32
  ipv6 add 2001:db8::8/128
+ ip router ospf 10 area 678
+ ipv6 router ospfv3 20 area 678
+ no shut
 !
 int loopback8
  ip add 192.168.8.1/24
  ipv6 add 2001:db8:8::1/64
+ no shut
 !
 int e1/1
  no switchport
  ip add 10.10.10.19/29
  ipv6 add 2001:db8:678::8/64
+ ip router ospf 10 area 678
+ ip ospf authentication key-chain mypass
+ no ip ospf passive-interface
+ ipv6 router ospfv3 20 area 678
+ no ospfv3 passive-interface
  no shut
 exit
 !
