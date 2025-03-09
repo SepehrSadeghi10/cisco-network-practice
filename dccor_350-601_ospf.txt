@@ -443,8 +443,10 @@ int e1/2
  ip router ospf 10 area 678
  ip ospf authentication key-chain mypass
  no ip ospf passive-interface
+ ip ospf priority 255
  ipv6 router ospfv3 20 area 678
  no ospfv3 passive-interface
+ ospfv3 priority 255
  no shut
 exit
 !
@@ -503,8 +505,10 @@ int e1/1
  ip router ospf 10 area 678
  ip ospf authentication key-chain mypass
  no ip ospf passive-interface
+ ip ospf priority 0
  ipv6 router ospfv3 20 area 678
  no ospfv3 passive-interface
+ ospfv3 priority 0
  no shut
 exit
 !
@@ -574,8 +578,10 @@ int e1/1
  ip router ospf 10 area 678
  ip ospf authentication key-chain mypass
  no ip ospf passive-interface
+ ip ospf priority 0
  ipv6 router ospfv3 20 area 678
  no ospfv3 passive-interface
+ ospfv3 priority 0
  no shut
 exit
 !
