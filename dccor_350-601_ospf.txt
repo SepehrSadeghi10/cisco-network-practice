@@ -191,12 +191,25 @@ key chain mypass
  exit
 exit
 !
+ip prefix-list LO8 seq 5 permit 192.168.8.0/24 eq 24
+ipv6 prefix-list LO8 seq 5 permit 2001:db8:8::/64 eq 64
+!
+route-map RM_LO8 permit 10
+  match ip address prefix-list LO8 
+  set metric-type type-1
+!
+route-map RM6_LO8 permit 10
+  match ipv6 address prefix-list LO8 
+  set metric-type type-1
+exit
+!
 router ospf 10
  log-adjacency-changes detail
  router-id 1.1.1.8
  area 678 stub
  area 678 authentication message-digest
  passive-interface default
+ redistribute direct route-map RM_LO8
 exit
 !
 router ospfv3 20
@@ -204,6 +217,8 @@ router ospfv3 20
  router-id 1.1.1.8
  area 678 stub
  passive-interface default
+ address-family ipv6 unicast
+  redistribute direct route-map RM6_LO8
 exit
 !
 int loopback0
