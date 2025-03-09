@@ -101,9 +101,51 @@ conf t
 !
 hostname NX9K-2
 !
+feature ospf
+!
+feature ospfv3
+!
+key chain mypass
+ key 10
+  key-string P@ssW0rd
+ exit
+exit
+!
+ip prefix-list Q-ZERO seq 5 permit 0.0.0.0/0
+ipv6 prefix-list Q-ZERO seq 5 permit 0::/0
+!
+route-map RM_Q-ZERO permit 10
+  match ip address prefix-list Q-ZERO 
+  set metric-type type-1
+!
+route-map RM6_Q-ZERO permit 10
+  match ipv6 address prefix-list Q-ZERO 
+  set metric-type type-1
+exit
+!
+router ospf 10
+ log-adjacency-changes detail
+ router-id 1.1.1.2
+ area 0 authentication message-digest
+ passive-interface default
+ default-information originate always route-map RM_Q-ZERO
+exit
+!
+router ospfv3 20
+ log-adjacency-changes detail
+ router-id 1.1.1.2
+ passive-interface default
+ address-family ipv6 unicast
+  default-information originate always route-map RM6_Q-ZERO
+ exit
+exit
+!
 int loopback0
  ip add 1.1.1.2/32
  ipv6 add 2001:db8::2/128
+ ip router ospf 10 area 0
+ ipv6 router ospfv3 20 area 0
+ no shut
 !
 int loopback2
  ip add 192.168.12.1/24
@@ -114,11 +156,23 @@ int loopback2
  ipv6 add 2001:db8:0:13::1/64
  ipv6 add 2001:db8:0:14::1/64
  ipv6 add 2001:db8:0:15::1/64
+ ip router ospf 10 area 0
+ ip ospf network point-to-point
+ ipv6 router ospfv3 20 area 0
+ ospfv3 network point-to-point
+ no shut
 !
 int e1/1
  no switchport
  ip add 10.10.10.2/30
  ipv6 add 2001:db8:12::2/64
+ ip router ospf 10 area 0
+ ip ospf authentication key-chain mypass
+ ip ospf network point-to-point
+ no ip ospf passive-interface
+ ipv6 router ospfv3 20 area 0
+ ospfv3 network point-to-point
+ no ospfv3 passive-interface
  no shut
 exit
 !
