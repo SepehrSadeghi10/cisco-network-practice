@@ -49,6 +49,18 @@ int g0/0
  no shut
 exit
 !
+router bgp 65200
+ bgp router-id 1.1.1.2
+ no bgp default ipv4-unicast
+ neighbor 10.12.1.1 remote-as 65100
+ neighbor 10.12.1.1 password cisco123!
+ neighbor 10.12.1.1 timers 10 30
+ !
+ address-family ipv4
+  neighbor 10.12.1.1 activate
+ exit-address-family
+exit
+!
 end
 !
 wr
