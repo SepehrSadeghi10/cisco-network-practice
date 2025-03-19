@@ -37,6 +37,8 @@ router eigrp 100
  network 10.13.1.1 0.0.0.0
 exit
 !
+ip route 192.168.4.4 255.255.255.255 10.14.1.4
+!
 end
 !
 wr
@@ -108,6 +110,8 @@ int g0/0
  ip add 10.14.1.4 255.255.255.0
  no shut
 exit
+!
+ip route 0.0.0.0 0.0.0.0 10.14.1.1
 !
 end
 !
