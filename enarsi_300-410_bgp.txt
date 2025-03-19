@@ -13,6 +13,7 @@ int g0/0
 !
 int g0/1
  ip add 10.13.1.1 255.255.255.0
+ ip summary-address eigrp 100 0.0.0.0 0.0.0.0
  no shut
 !
 int g0/2
