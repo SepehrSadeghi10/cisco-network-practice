@@ -30,6 +30,12 @@ router bgp 65100
  neighbor 10.12.1.2 remote-as 65200
  neighbor 10.12.1.2 password cisco123!
  neighbor 10.12.1.2 timers 10 30
+ network 10.12.1.0 mask 255.255.255.0
+ network 192.168.1.1 mask 255.255.255.255
+ network 192.168.2.2 mask 255.255.255.255
+ network 192.168.3.3 mask 255.255.255.255
+ network 192.168.4.4 mask 255.255.255.255
+ redistribute ospf 100
 exit
 !
 router eigrp 100
@@ -72,6 +78,8 @@ router bgp 65200
  !
  address-family ipv4
   neighbor 10.12.1.1 activate
+  network 10.12.1.0 mask 255.255.255.0
+  network 192.168.2.2 mask 255.255.255.255
  exit-address-family
 exit
 !
