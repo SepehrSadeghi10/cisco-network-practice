@@ -56,7 +56,7 @@ router bgp 65200
  bgp router-id 3.3.3.3
  neighbor 10.34.1.4 remote-as 65400
  neighbor 10.23.1.2 remote-as 65200
- neighbor 10.34.1.4 next-hop-self
+ neighbor 10.23.1.2 next-hop-self
 exit
 !
 int g0/0
