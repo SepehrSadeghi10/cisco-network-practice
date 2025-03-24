@@ -7,6 +7,15 @@ router ospf 100
  router-id 1.1.1.1
 exit
 !
+router bgp 65100
+ bgp router-id 1.1.1.1
+ neighbor 192.168.2.2 remote-as 65100
+ neighbor 192.168.2.2 update-source loopback0
+ neighbor 192.168.3.3 remote-as 65100
+ neighbor 192.168.3.3 update-source loopback0
+ network 10.1.1.0 mask 255.255.255.0
+exit
+!
 int loopback0
  ip add 192.168.1.1 255.255.255.255
  ip ospf 100 area 0
@@ -40,6 +49,14 @@ router ospf 100
  router-id 2.2.2.2
 exit
 !
+router bgp 65100
+ bgp router-id 2.2.2.2
+ neighbor 192.168.1.1 remote-as 65100
+ neighbor 192.168.1.1 update-source loopback0
+ neighbor 192.168.3.3 remote-as 65100
+ neighbor 192.168.3.3 update-source loopback0
+exit
+!
 int loopback0
  ip add 192.168.2.2 255.255.255.255
  ip ospf 100 area 0
@@ -67,6 +84,14 @@ hostname R3
 !
 router ospf 100
  router-id 3.3.3.3
+exit
+!
+router bgp 65100
+ bgp router-id 3.3.3.3
+ neighbor 192.168.1.1 remote-as 65100
+ neighbor 192.168.1.1 update-source loopback0
+ neighbor 192.168.2.2 remote-as 65100
+ neighbor 192.168.2.2 update-source loopback0
 exit
 !
 int loopback0
