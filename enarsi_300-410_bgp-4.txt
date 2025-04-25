@@ -3,8 +3,14 @@ conf t
 !
 hostname R1
 !
+router bgp 100
+ bgp router-id 1.1.1.1
+ neighbor 10.12.1.2 remote-as 200
+ redistribute connected metric 111
+exit
+!
 int loopback0
- ip add 10.1.1.0 255.255.255.0
+ ip add 10.1.1.1 255.255.255.0
  no shut
 !
 int g0/0
@@ -20,6 +26,16 @@ R2=======================
 conf t
 !
 hostname R2
+!
+router bgp 65100
+ bgp router-id 2.2.2.2
+ bgp confederation identifier 200
+ neighbor 10.12.1.1 remote-as 100
+ neighbor 10.23.1.3 remote-as 65100
+ neighbor 10.25.1.5 remote-as 65200
+ bgp confederation peers 65200
+ redistribute connected
+exit
 !
 int g0/0
  ip add 10.12.1.2 255.255.255.0
@@ -43,6 +59,16 @@ conf t
 !
 hostname R3
 !
+router bgp 65100
+ bgp router-id 3.3.3.3
+ bgp confederation identifier 200
+ neighbor 10.23.1.2 remote-as 65100
+ neighbor 10.23.1.2 route-reflector-client
+ neighbor 10.34.1.4 remote-as 65100
+ neighbor 10.34.1.4 route-reflector-client
+ redistribute connected
+exit
+!
 int g0/0
  ip add 10.34.1.3 255.255.255.0
  no shut
@@ -60,6 +86,15 @@ R4=======================
 conf t
 !
 hostname R4
+!
+router bgp 65100
+ bgp router-id 4.4.4.4
+ bgp confederation identifier 200
+ neighbor 10.46.1.6 remote-as 65200
+ bgp confederation peers 65200
+ neighbor 10.34.1.3 remote-as 65100
+ redistribute connected
+exit
 !
 int g0/0
  ip add 10.34.1.4 255.255.255.0
@@ -79,6 +114,15 @@ conf t
 !
 hostname R5
 !
+router bgp 65200
+ bgp router-id 5.5.5.5
+ bgp confederation identifier 200
+ neighbor 10.25.1.2 remote-as 65100
+ bgp confederation peers 65100
+ neighbor 10.56.1.6 remote-as 65200
+ redistribute connected
+exit
+!
 int g0/0
  ip add 10.56.1.5 255.255.255.0
  no shut
@@ -96,6 +140,16 @@ R6=======================
 conf t
 !
 hostname R6
+!
+router bgp 65200
+ bgp router-id 6.6.6.6
+ bgp confederation identifier 200
+ neighbor 10.46.1.4 remote-as 65100
+ bgp confederation peers 65100
+ neighbor 10.56.1.5 remote-as 65200
+ neighbor 10.67.1.7 remote-as 300
+ redistribute connected
+exit
 !
 int g0/0
  ip add 10.56.1.6 255.255.255.0
@@ -118,6 +172,12 @@ R7=======================
 conf t
 !
 hostname R7
+!
+router bgp 300
+ bgp router-id 7.7.7.7
+ neighbor 10.67.1.6 remote-as 200
+ network 10.7.7.0 mask 255.255.255.0
+exit
 !
 int loopback0
  ip add 10.7.7.1 255.255.255.0
