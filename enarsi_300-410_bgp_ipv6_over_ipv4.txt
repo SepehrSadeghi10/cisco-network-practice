@@ -5,6 +5,16 @@ hostname R1
 !
 ipv6 unicast-routing
 !
+router bgp 65100
+ bgp router-id 1.1.1.1
+ no bgp default ipv4-unicast
+ neighbor 10.12.1.2 remote-as 65200
+ address-family ipv6 unicast
+  neighbor 10.12.1.2 activate
+  redistribute connected
+ exit
+exit
+!
 int loopback0
  ipv6 add 2001:db8::1/128
  no shut
@@ -31,6 +41,20 @@ conf t
 hostname R2
 !
 ipv6 unicast-routing
+!
+router bgp 65200
+ bgp router-id 2.2.2.2
+ no bgp default ipv4-unicast
+ neighbor 10.12.1.1 remote-as 65100
+ neighbor 10.23.1.2 remote-as 65300
+ address-family ipv6 unicast
+  neighbor 10.12.1.1 activate
+  neighbor 10.23.1.2 activate
+  network 2001:db8::2/128
+  network 2001:db8:0:12::/64
+  network 2001:db8:0:23::/64
+ exit
+exit
 !
 int loopback0
  ipv6 add 2001:db8::2/128
@@ -60,6 +84,18 @@ conf t
 hostname R3
 !
 ipv6 unicast-routing
+!
+router bgp 65300
+ bgp router-id 3.3.3.3
+ no bgp default ipv4-unicast
+ neighbor 10.23.1.1 remote-as 65200
+ address-family ipv6 unicast
+  neighbor 10.23.1.1 activate
+  network 2001:db8::3/128
+  network 2001:db8:0:23::/64
+  network 2001:db8:0:3::/64
+ exit
+exit
 !
 int loopback0
  ipv6 add 2001:db8::3/128
